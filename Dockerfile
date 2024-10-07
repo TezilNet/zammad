@@ -6,6 +6,8 @@ ARG ZAMMAD_USER=zammad
 ENV RAILS_ENV=production
 ENV RAILS_LOG_TO_STDOUT=true
 ENV ZAMMAD_DIR=/opt/zammad
+ENV ZAMMAD_RAILSSERVER_PORT=3000
+ENV ZAMMAD_WEBSOCKET_PORT=6042
 
 # Crear directorio de trabajo
 WORKDIR ${ZAMMAD_DIR}
@@ -16,6 +18,8 @@ RUN apt-get update && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
+
+EXPOSE ${ZAMMAD_RAILSSERVER_PORT} ${ZAMMAD_WEBSOCKET_PORT}
 
 # Copiar la aplicación al contenedor
 COPY . .

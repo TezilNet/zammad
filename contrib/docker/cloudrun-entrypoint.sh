@@ -130,14 +130,6 @@ elif [ "$1" = 'zammad-railsserver' ]; then
   #shellcheck disable=SC2101
   exec bundle exec puma -b tcp://[::]:"${ZAMMAD_RAILSSERVER_PORT}" -w "${ZAMMAD_WEB_CONCURRENCY}" -e "${RAILS_ENV}"
 
-# zammad-scheduler
-elif [ "$1" = 'zammad-scheduler' ]; then
-  check_zammad_ready
-
-  echo "starting background services..."
-
-  exec bundle exec script/background-worker.rb start
-
 # zammad-websocket
 elif [ "$1" = 'zammad-websocket' ]; then
   check_zammad_ready
@@ -145,6 +137,14 @@ elif [ "$1" = 'zammad-websocket' ]; then
   echo "starting websocket server..."
 
   exec bundle exec script/websocket-server.rb -b 0.0.0.0 -p "${ZAMMAD_WEBSOCKET_PORT}" start
+
+# zammad-scheduler
+elif [ "$1" = 'zammad-scheduler' ]; then
+  check_zammad_ready
+
+  echo "starting background services..."
+
+  exec bundle exec script/background-worker.rb start
 
 # zammad-backup
 elif [ "$1" = 'zammad-backup' ]; then
