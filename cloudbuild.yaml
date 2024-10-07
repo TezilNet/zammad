@@ -1,0 +1,62 @@
+steps:
+  # Paso 1: Construir la etapa "node"
+  - name: 'node:20-slim'
+    id: 'node-stage'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Preparar las carpetas para los artefactos que queremos copiar
+        mkdir -p /workspace/opt
+        cp -R /opt/* /workspace/opt/
+        mkdir -p /workspace/usr/local/bin
+        cp -R /usr/local/bin/* /workspace/usr/local/bin/
+
+  # Paso 2: Construir la etapa "builder" usando Ruby
+  - name: 'ruby:3.2.4-slim'
+    id: 'builder-stage'
+    env:
+      - DEBIAN_FRONTEND=noninteractive
+      - RAILS_ENV=production
+      - ZAMMAD_DIR=/opt/zammad
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Copiar los archivos desde la etapa node
+        mkdir -p /opt
+        cp -R /workspace/opt/* /opt/
+        mkdir -p /usr/local/bin
+        cp -R /workspace/usr/local/bin/* /usr/local/bin/
+        # Copiar el código de la aplicación
+        mkdir -p /opt/zammad
+        cp -R . /opt/zammad
+        # Ejecutar el setup de Zammad
+        contrib/docker/setup.sh builder
+
+  # Paso 3: Etapa final con Ruby y los artefactos de la etapa "builder"
+  - name: 'ruby:3.2.4-slim'
+    id: 'final-stage'
+    env:
+      - DEBIAN_FRONTEND=noninteractive
+      - RAILS_ENV=production
+      - RAILS_LOG_TO_STDOUT=true
+      - ZAMMAD_DIR=/opt/zammad
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Copiar los artefactos generados desde el builder
+        cp -R /workspace/opt/zammad /opt/zammad
+        cp -R /workspace/usr/local/bundle /usr/local/bundle
+        cp /opt/zammad/contrib/docker/docker-entrypoint.sh /
+        # Ejecutar el setup de Zammad en modo runner
+        contrib/docker/setup.sh runner
+
+  # Paso opcional: Construir la imagen final de Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/zammad', '.']
+
+# Subir la imagen final a Container Registry
+images:
+  - 'gcr.io/$PROJECT_ID/zammad'
