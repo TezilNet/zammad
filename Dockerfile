@@ -27,7 +27,7 @@ COPY . .
 
 # Ejecutar el setup de Zammad
 RUN chmod +x ${ZAMMAD_DIR}/contrib/docker/setup-cloudrun.sh
-RUN sh ${ZAMMAD_DIR}/contrib/docker/setup-cloudrun.sh
+RUN ${ZAMMAD_DIR}/contrib/docker/setup-cloudrun.sh
 
 # Definir el shell por defecto
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
