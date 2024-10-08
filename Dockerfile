@@ -34,5 +34,5 @@ SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
 # Cambiar el usuario a zammad y configurar el entrypoint
 USER zammad:zammad
-COPY ${ZAMMAD_DIR}/contrib/docker/cloudrun-entrypoint.sh /entrypoint.sh
+COPY contrib/docker/cloudrun-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
