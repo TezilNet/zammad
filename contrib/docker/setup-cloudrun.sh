@@ -22,10 +22,11 @@ ZAMMAD_SAFE_MODE=1 bundle exec rake assets:precompile
 
 # Limpiar archivos temporales y dependencias innecesarias
 rm -r tmp/*
-script/build/cleanup.sh
+# script/build/cleanup.sh
 
 # Limpiar listas de paquetes de apt para reducir el tamaño de la imagen
 apt-get remove -y build-essential git curl && \
 apt-get autoremove -y && \
-apt-get clean && \
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+apt-get clean
+# apt-get clean && \
+# rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
