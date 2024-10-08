@@ -26,7 +26,7 @@ EXPOSE ${ZAMMAD_RAILSSERVER_PORT} ${ZAMMAD_WEBSOCKET_PORT}
 COPY . .
 
 # Ejecutar el setup de Zammad
-RUN chmod +x ${ZAMMAD_DIR}/contrib/docker/setup-cloudrun.sh
+RUN chmod +x contrib/docker/setup-cloudrun.sh
 RUN contrib/docker/setup-cloudrun.sh
 
 # Definir el shell por defecto
