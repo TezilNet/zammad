@@ -13,12 +13,14 @@ apt-get install -y --no-install-recommends ${PACKAGES}
 cd "${ZAMMAD_DIR}"
 
 # Configurar Bundler para evitar las dependencias innecesarias y luego instalar las necesarias
-bundle config set without 'test development mysql'
-bundle install --clean
+bundle config set --local without 'test development mysql'
+bundle config set --local frozen 'true'
+bundle install
+# bundle install --clean
 
 # Precompilar los assets (sin necesidad de Redis)
 touch db/schema.rb
-ZAMMAD_SAFE_MODE=1 bundle exec rake assets:precompile
+# ZAMMAD_SAFE_MODE=1 bundle exec rake assets:precompile
 
 # Limpiar archivos temporales y dependencias innecesarias
 rm -r tmp/*
