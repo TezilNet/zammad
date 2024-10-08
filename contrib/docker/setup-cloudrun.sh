@@ -27,8 +27,8 @@ touch db/schema.rb
 ZAMMAD_SAFE_MODE=1 DATABASE_URL=postgresql://zammad:/zammad bundle exec rake assets:precompile
 
 # Limpiar archivos temporales y dependencias innecesarias
-# rm -r tmp/*
-# script/build/cleanup.sh
+rm -r tmp/*
+script/build/cleanup.sh
 
 /etc/init.d/postgresql stop
 
@@ -36,7 +36,9 @@ ZAMMAD_SAFE_MODE=1 DATABASE_URL=postgresql://zammad:/zammad bundle exec rake ass
 # Limpiar listas de paquetes de apt para reducir el tamaño de la imagen
 apt-get remove -y build-essential git curl postgresql && \
 apt-get autoremove -y && \
-apt-get clean
+apt-get clean && \
+rm -rf /tmp/* /var/tmp/*
+
 # apt-get clean && \
 # rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-rm -rf /tmp/* /var/tmp/*
+
