@@ -2,7 +2,8 @@
 set -e
 
 # Paquetes necesarios para la compilación y la configuración
-PACKAGES="build-essential curl git libimlib2-dev libpq-dev shared-mime-info postgresql"
+# PACKAGES="build-essential curl git libimlib2-dev libpq-dev shared-mime-info postgresql"
+PACKAGES="build-essential curl git libimlib2-dev libpq-dev shared-mime-info"
 
 # Actualizar e instalar dependencias necesarias
 apt-get update && \
@@ -20,10 +21,10 @@ bundle install
 
 # Precompilar los assets (sin necesidad de Redis)
 touch db/schema.rb
-# ZAMMAD_SAFE_MODE=1 bundle exec rake assets:precompile
+ZAMMAD_SAFE_MODE=1 bundle exec rake assets:precompile
 
 # Limpiar archivos temporales y dependencias innecesarias
-rm -r tmp/*
+# rm -r tmp/*
 # script/build/cleanup.sh
 
 # Limpiar listas de paquetes de apt para reducir el tamaño de la imagen
@@ -32,3 +33,4 @@ apt-get autoremove -y && \
 apt-get clean
 # apt-get clean && \
 # rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+rm -rf /tmp/* /var/tmp/*
