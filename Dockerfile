@@ -39,7 +39,7 @@ RUN useradd -m -d /home/zammad -s /bin/bash zammad
 COPY contrib/docker/cloudrun-entrypoint.sh /entrypoint.sh
 RUN chown zammad:zammad /entrypoint.sh
 RUN chmod 754 /entrypoint.sh
-RUN mkdir ${ZAMMAD_DIR}/tmp
+RUN mkdir -p ${ZAMMAD_DIR}/tmp
 RUN chmod 777 ${ZAMMAD_DIR}/tmp
 
 USER zammad
