@@ -32,7 +32,10 @@ RUN ${ZAMMAD_DIR}/contrib/docker/setup-cloudrun.sh
 # Definir el shell por defecto
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
+# Crear el usuario zammad si no existe
+RUN useradd -m -d /home/zammad -s /bin/bash zammad
+
 # Cambiar el usuario a zammad y configurar el entrypoint
-USER zammad:zammad
+USER zammad
 COPY contrib/docker/cloudrun-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
