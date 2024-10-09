@@ -6,6 +6,9 @@ source 'https://rubygems.org'
 ruby '3.2.4'
 gem 'rails', '~> 7.0.8'
 
+# custom
+gem "google-cloud-storage", "~> 1.11", require: false
+
 # core - rails additions
 gem 'activerecord-import'
 gem 'activerecord-session_store'
