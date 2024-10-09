@@ -25,10 +25,11 @@ bundle install
 # Precompilar los assets (sin necesidad de Redis)
 touch db/schema.rb
 # ZAMMAD_SAFE_MODE=1 DATABASE_URL=postgresql://zammad:/zammad bundle exec rake assets:precompile
-# este de arriba lo quitamos momentaneamente pq se tarda un chingo
+# 1) este de arriba lo quitamos momentaneamente pq se tarda un chingo
 
 # Limpiar archivos temporales y dependencias innecesarias
-rm -r tmp/*
+# rm -r tmp/*
+# regresar cuando se regrese 1)
 script/build/cleanup.sh
 
 /etc/init.d/postgresql stop
