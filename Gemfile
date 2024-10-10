@@ -21,7 +21,7 @@ gem 'parallel'
 gem 'puma', group: :puma
 
 # core - supported ORMs
-gem 'mysql2', group: :mysql
+# gem 'mysql2', group: :mysql
 gem 'pg', '~> 1.5', '>= 1.5.4', group: :postgres
 
 # core - asynchrous task execution
