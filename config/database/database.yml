@@ -30,6 +30,8 @@ default: &default
 production:
   <<: *default
   database: zammad_production
+  pool: 20
+  idle_timeout: 600
 
 development:
   <<: *default
