@@ -95,10 +95,10 @@ class _webSocketSingleton extends App.Controller
       @_ajaxSend(data)
     else
 
-      # A value of 0 indicates that the connection has not yet been established.
-      # A value of 1 indicates that the connection is established and communication is possible.
-      # A value of 2 indicates that the connection is going through the closing handshake.
-      # A value of 3 indicates that the connection has been closed or could not be opened.
+# A value of 0 indicates that the connection has not yet been established.
+# A value of 1 indicates that the connection is established and communication is possible.
+# A value of 2 indicates that the connection is going through the closing handshake.
+# A value of 3 indicates that the connection has been closed or could not be opened.
       if @ws.readyState isnt 1
         @queue.push data
       else
@@ -163,9 +163,8 @@ class _webSocketSingleton extends App.Controller
         port = ":#{window.location.port}"
       @ws = new window.WebSocket("#{protocol}#{window.location.hostname}#{port}/ws")
     else if @backend is 'websocketPort'
-      @backend_port = App.Config.get('websocket_port') || ''
-      # @ws           = new window.WebSocket("#{protocol}#{window.location.hostname}:#{@backend_port}/")
-      @ws           = new window.WebSocket("#{protocol}#{window.location.hostname}/")
+      @backend_port = App.Config.get('websocket_port') || '6042'
+      @ws           = new window.WebSocket("#{protocol}#{window.location.hostname}:#{@backend_port}/")
     else
       @_ajaxInit()
 
@@ -213,7 +212,7 @@ class _webSocketSingleton extends App.Controller
       # if connection was not possible
       if !@connectionWasEstablished
 
-        # use ws dedicated port fallback if no connection was possible
+# use ws dedicated port fallback if no connection was possible
         if @backend is 'websocket'
           @log 'debug', 'no websocket connection on /ws, use :port/'
           @backend = 'websocketPort'
@@ -233,7 +232,7 @@ class _webSocketSingleton extends App.Controller
       if !@error
         message = =>
 
-          # show reconnect message
+# show reconnect message
           @error = new Modal()
         if !@tryToConnect
           App.Delay.set message, 7000, 'websocket-no-connection-try-reconnect-message', 'ws'
@@ -250,7 +249,7 @@ class _webSocketSingleton extends App.Controller
 
   _receiveMessage: (data = []) =>
 
-    # go through all blocks
+# go through all blocks
     for item in data
       @log 'debug', 'onmessage', item
 
@@ -265,7 +264,7 @@ class _webSocketSingleton extends App.Controller
 
   _ajaxInit: (data = {}) =>
 
-    # return if init is already done and not forced
+# return if init is already done and not forced
     return if @_ajaxInitDone && !data.force
 
     # call init request
